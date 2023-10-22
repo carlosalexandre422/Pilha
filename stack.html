@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pilha</title>
+  <style>
+    /* Estilos em css */
+    body {
+      font-family: Roboto;
+      background-color: #d8eaff;
+    }
+
+    .container {
+      margin: 20px;
+    }
+
+    .stack-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stack-item {
+      display: inline-block;
+      background-color: #6287a0;
+      color: white;
+      padding: 10px;
+      border: 1px solid #334552;
+      border-radius: 5px;
+      margin: 5px;
+      transition: all 0.3s;
+      width: 100px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #455c6d;
+    }
+
+    .stack-item:hover {
+      background-color: #455c6d;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      margin: 10px 0;
+      transition: all 0.3s;
+      font-size: 16px;
+    }
+
+    h2 {
+      color: #204158;
+      font-size: 32px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Pilha</h2>
+    <button onclick="pushElement()">Inserir Elemento</button>
+    <button onclick="popElement()">Remover Elemento</button>
+    <button onclick="topElement()">Consultar Topo</button>
+    <br><br>
+    <div class="stack-container" id="stackContainer">
+      <!-- Pilha será exibida aqui -->
+    </div>
+  </div>
+
+  <script>
+    class PilhaSeq {
+  constructor(n = 5) {
+    this.dados = new Array(n);
+    this.topo = -1;
+  }
+
+  vazia() {
+    return this.topo === -1;
+  }
+
+  cheia() {
+    return this.topo === this.dados.length - 1;
+  }
+
+  tamanho() {
+    return this.topo + 1;
+  }
+
+  push(valor) {
+    if (this.cheia() || !Number.isInteger(valor)) {
+      return false;
+    }
+    this.topo++;
+    this.dados[this.topo] = valor;
+    return true;
+  }
+
+  pop() {
+    if (this.vazia()) {
+      return -1;
+    }
+    const valor = this.dados[this.topo];
+    this.topo--;
+    return valor;
+  }
+
+  top() {
+    if (this.vazia()) {
+      return -1;
+    }
+    return this.dados[this.topo];
+  }
+}
+
+    const pilha = new PilhaSeq(10);
+    const stackContainer = document.getElementById('stackContainer');
+
+    function renderizarPilha() {
+      stackContainer.innerHTML = '';
+
+      for (let i = pilha.topo; i >= 0; i--) {
+        const stackItem = document.createElement('div');
+        stackItem.className = 'stack-item';
+        stackItem.textContent = pilha.dados[i];
+        stackContainer.appendChild(stackItem);
+      }
+    }
+
+    function pushElement() {
+      const valor = parseInt(prompt('Digite o valor a ser inserido:'));
+      const sucesso = pilha.push(valor);
+      if (sucesso) {
+        alert('Elemento inserido com sucesso!');
+      } else {
+        alert('Inserção falhou. Pilha cheia.');
+      }
+      renderizarPilha();
+    }
+
+    function popElement() {
+      const valorRemovido = pilha.pop();
+      if (valorRemovido !== -1) {
+        alert(`Elemento ${valorRemovido} removido com sucesso!`);
+      } else {
+        alert('Remoção falhou. Pilha vazia.');
+      }
+      renderizarPilha();
+    }
+
+    function topElement() {
+      const valorTopo = pilha.top();
+      if (valorTopo !== -1) {
+        alert(`O topo da pilha contém o valor ${valorTopo}`);
+      } else {
+        alert('Pilha vazia.');
+      }
+    }
+
+    renderizarPilha(); // Renderizar a pilha inicial
+  </script>
+</body>
+
+</html>
